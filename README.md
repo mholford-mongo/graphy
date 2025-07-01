@@ -30,6 +30,8 @@ The load test measures path finding under high load
 ### Pre-reqs
 It is recommended to provision a dedicated VM to run locust.  You will want to make sure port 8089 is open.
 
+Copy `locust/env.template` to `locust/.env` and fill in the `MONGODB_URI` including user and password in the connection string.
+
 ### Setup and run locust
 - Push the `locust/` directory to the locust host.
 - `cd locust`
