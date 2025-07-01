@@ -1,33 +1,35 @@
-import datetime
+import os
 import random
 
-import bson.binary
-from bson import CodecOptions
 from dotenv import load_dotenv
-from graphy_user import GraphyUser
 from pymongo import MongoClient
-import os
+
+from graphy_user import GraphyUser
 from mongo_user import mongodb_task
 
+
 class FindPaths(GraphyUser):
-    load_dotenv()
+    load_dotenv() # Load .env to get secret values
     mongo_uri = os.environ['MONGO_URI']
 
     def __init__(self, environment):
         super().__init__(environment)
-        load_dotenv()
         self.mc = MongoClient(self.mongo_uri)
         self.num_root_nodes = len(self.root_node_cache)
 
-    @mongodb_task()
+    @mongodb_task()  # Decorator defined in mongo_user.py; don't forget the parens!
     def find_paths(self):
         resp = {}
+
+        # pick a random start node
         rand_root_node = random.choice(self.root_node_cache)
 
         chain = []
 
         db = self.mc['graphy']
         coll = db['rels']
+
+        # Aggregation
         match = {
             "$match": {
                 "source": rand_root_node

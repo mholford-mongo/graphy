@@ -2,7 +2,7 @@ import time
 
 from locust import User, between, task
 
-
+# Pulled out of mongolocust repo - Mh
 def mongodb_task(weight=1, batch_size=1):
     """
     A decorator to run an operation and time its execution
